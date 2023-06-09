@@ -1,7 +1,10 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+require("dotenv").config()
 const mongoose = require('mongoose')
+
+const MONGODB_URI = process.env.MONGODB_URI
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -12,7 +15,7 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model('Blog', blogSchema)
 
-const mongoUrl = 'mongodb://localhost/bloglist'
+const mongoUrl = MONGODB_URI //change this to mongodbatlas database
 mongoose.connect(mongoUrl)
 
 app.use(cors())
