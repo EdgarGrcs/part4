@@ -12,6 +12,7 @@ const totalLikes = (blogs) => {
 
     blogs.forEach((array) => {
       result = result + array.likes;
+      console.log(result);
     })  
 
     return result
@@ -33,54 +34,11 @@ const favoriteBlog = (blogs) => {
     }
   }
 
-  return result;
-}
-
-
-const mostBlogs = (blogs) => {
-
-  const result = {
-    author: "",
-    blogs: 0
-  }
-
-  const author = _.countBy(blogs, "author");
-  let values = Object.values(author);
-  let maxKey = _.max(Object.keys(author), o => author[o] );
-
-
-
-
-  result.author = maxKey;
-  result.blogs = values[values.length -1];
-
-  return result; 
-
-
-}
-
-
-const mostLikes = (blogs) => {
-
-const getMostLikes = (blogs) => blogs
-  .reduce(({sums,most}, {likes, author}) => {
-    sums[author] = likes = (sums[author] || 0) + likes;
-    if (likes > most.likes) most = {author,likes};
-    return {sums,most};
-  }, {sums: {}, most: {likes:0} })
-  .most;
-
-  result = getMostLikes(blogs);
+  console.log(result);
 
   return result;
 }
-
-
   
   module.exports = {
-    dummy,
-    totalLikes,
-    favoriteBlog,
-    mostBlogs,
-    mostLikes
+    dummy
   }
