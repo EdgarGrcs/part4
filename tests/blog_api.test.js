@@ -54,5 +54,23 @@ test("return 400 if title and url are missing - 4.12", async () => {
     likes: 1,
   };
 
-  await api.post("/api/blogs").send(testData).expect(400)
+  await api.post("/api/blogs").send(testData).expect(400);
 }, 100000);
+
+test("blog from database has been deleted - 4.13", async () => {
+  const blog = await Blog.find({});
+  console.log(blog[0].id);
+
+  await api.delete(`/api/blogs/${blog[0].id}`).expect(204);
+});
+
+test("data of a blog has been updated - 4.14", async () => {
+
+    const blog = await Blog.find({});
+    console.log(blog[0]);
+    blog[0].likes = 10;
+    console.log(blog[0]);
+
+    await api.patch(`/api/blogs/${blog[0].id}`).send(blog).expect(204)
+});
+
