@@ -35,3 +35,24 @@ test("post request creates a new blog post - 4.10", async () => {
   await api.post("/api/blogs").send(testData).expect(201);
 }, 100000);
 
+test("likes property defaults to zero when missing - 4.11", async () => {
+  const testData = {
+    title: "From the land down under",
+    author: "Aussie Mate",
+    url: "aussie4lyf.aus",
+  };
+
+  await api.post("/api/blogs").send(testData).expect(201);
+
+  const response = await api.get("/api/blogs");
+  expect(response.body[0].likes).toBe(0);
+}, 100000);
+
+test("return 400 if title and url are missing - 4.12", async () => {
+  const testData = {
+    author: "Aussie Mate",
+    likes: 1,
+  };
+
+  await api.post("/api/blogs").send(testData).expect(400)
+}, 100000);
