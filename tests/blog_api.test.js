@@ -6,15 +6,13 @@ const api = supertest(app);
 const helper = require("./test_helper");
 const Blog = require("../models/bloglist");
 
-
 beforeEach(async () => {
-    await Blog.deleteMany({});
+  await Blog.deleteMany({});
 
-    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog));
-    const promiseArray = blogObjects.map(blog => blog.save());
-    await Promise.all(promiseArray);
-})
-
+  const blogObjects = helper.initialBlogs.map((blog) => new Blog(blog));
+  const promiseArray = blogObjects.map((blog) => blog.save());
+  await Promise.all(promiseArray);
+});
 
 test("returns correct amount of blogposts - 4.8", async () => {
   const response = await api.get("/api/blogs");
@@ -22,6 +20,18 @@ test("returns correct amount of blogposts - 4.8", async () => {
 });
 
 test("unique identifier property is named id - 4.9", async () => {
-    const blog = await Blog.find({});
-    expect(blog[0]._id).toBeDefined();
-})
+  const blog = await Blog.find({});
+  expect(blog[0]._id).toBeDefined();
+});
+
+test("post request creates a new blog post - 4.10", async () => {
+  const testData = {
+    title: "From the land down under",
+    author: "Aussie Mate",
+    url: "aussie4lyf.aus",
+    likes: "420",
+  };
+
+  await api.post("/api/blogs").send(testData).expect(201);
+}, 100000);
+
